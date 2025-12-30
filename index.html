@@ -18,12 +18,24 @@ body{
     background-size:400% 400%;
     animation:bg 14s ease infinite;
     color:#e5e7eb;
+    scroll-behavior:smooth;
 }
 
 @keyframes bg{
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
+}
+
+/* Fade-in animation */
+.fade-in{
+    opacity:0;
+    transform:translateY(20px);
+    transition: all 0.8s ease-out;
+}
+.fade-in.visible{
+    opacity:1;
+    transform:translateY(0);
 }
 
 /* HERO */
@@ -61,6 +73,7 @@ nav a{
     text-decoration:none;
     color:#e5e7eb;
     font-weight:600;
+    transition:.3s;
 }
 
 nav a:hover{color:#c084fc}
@@ -88,11 +101,11 @@ section{
     overflow:hidden;
     text-decoration:none;
     color:inherit;
-    transition:.3s;
+    transition:.3s, transform .3s ease;
+    transform-style: preserve-3d;
 }
-
 .work:hover{
-    transform:translateY(-10px);
+    transform:translateY(-10px) rotateX(2deg) rotateY(2deg);
     box-shadow:0 25px 45px rgba(0,0,0,.6);
 }
 
@@ -136,6 +149,42 @@ section{
     color:#cbd5f5;
 }
 
+/* CTA BUTTONS */
+.cta-btn{
+    display:inline-block;
+    margin:20px 12px 0;
+    padding:14px 28px;
+    border-radius:14px;
+    font-weight:600;
+    text-decoration:none;
+    color:#000;
+    background:#c084fc;
+    transition: all .3s ease;
+}
+.cta-btn:hover{
+    background:#a855f7;
+    box-shadow:0 0 15px #c084fc;
+}
+
+/* SOCIAL PROOF */
+.social-proof{
+    background:rgba(0,0,0,.55);
+    padding:50px 10%;
+    border-radius:18px;
+    margin:50px 0;
+    text-align:center;
+}
+.social-proof h3{
+    color:#c084fc;
+    margin-bottom:25px;
+    font-size:1.8rem;
+}
+.social-proof p{
+    color:#d8b4fe;
+    font-size:1.05rem;
+    margin-bottom:12px;
+}
+
 /* CONTACT */
 .contact{
     background:rgba(0,0,0,.6);
@@ -168,6 +217,7 @@ section{
 
 .btn:hover{
     background:#a855f7;
+    box-shadow:0 0 15px #c084fc;
 }
 
 footer{
@@ -182,7 +232,7 @@ footer{
 <body>
 
 <!-- HERO -->
-<header>
+<header class="fade-in">
 <h1>Fazih</h1>
 <p>
 I’m a +2 student and professional video editor specializing in
@@ -198,7 +248,7 @@ trending reels, cinematic longform videos, and 3D edits.
 </header>
 
 <!-- SHORTFORM -->
-<section id="shortform">
+<section id="shortform" class="fade-in">
 <h2 class="title">Shortform Videos</h2>
 
 <div class="grid">
@@ -225,12 +275,18 @@ trending reels, cinematic longform videos, and 3D edits.
 <p>Scroll-stopping edit</p>
 </div>
 </a>
-
 </div>
+
+<!-- CTA after Shortform -->
+<div style="text-align:center;">
+<a class="cta-btn" href="mailto:fazihnoorul@gmail.com">👉 Want Shorts like this? Email Me</a>
+<a class="cta-btn" href="https://wa.me/918138810633" target="_blank">👉 WhatsApp Me</a>
+</div>
+
 </section>
 
 <!-- LONGFORM -->
-<section id="longform">
+<section id="longform" class="fade-in">
 <h2 class="title">Longform Videos</h2>
 
 <div class="grid">
@@ -242,10 +298,25 @@ trending reels, cinematic longform videos, and 3D edits.
 </div>
 </a>
 </div>
+
+<!-- CTA after Longform -->
+<div style="text-align:center;">
+<a class="cta-btn" href="mailto:fazihnoorul@gmail.com">👉 Need a full YouTube edit? Email Me</a>
+<a class="cta-btn" href="https://wa.me/918138810633" target="_blank">👉 WhatsApp Me</a>
+</div>
+
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof fade-in">
+<h3>Trusted by creators</h3>
+<p>“Edited for SA-MP creators”</p>
+<p>“Worked with gaming & IRL creators”</p>
+<p>“Trusted by repeat clients”</p>
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="contact">
+<section id="contact" class="contact fade-in">
 <h2>Contact Me</h2>
 <p>Ready to work together? Let’s talk.</p>
 
@@ -256,6 +327,25 @@ trending reels, cinematic longform videos, and 3D edits.
 <footer>
 © 2025 Fazih • Video Editor
 </footer>
+
+<script>
+// Fade-in on scroll
+const faders = document.querySelectorAll('.fade-in');
+const options = { threshold: 0.2 };
+
+const appearOnScroll = new IntersectionObserver((entries, observer)=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, options);
+
+faders.forEach(fader=>{
+    appearOnScroll.observe(fader);
+});
+</script>
 
 </body>
 </html>
